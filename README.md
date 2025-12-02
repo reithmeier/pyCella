@@ -2,7 +2,11 @@
 
 ## Description
 
-Just my collection of cellular automata implementations
+Just my collection of cellular automata implementations.
+
+* Drossel-Schwabl forest fire model
+* Game of Life
+
 
 ## Requirements
 
@@ -15,5 +19,15 @@ Just my collection of cellular automata implementations
 uv sync
 ```
 
+## Run
 
+Drossel-Schwabl forest fire model
+```shell
+uv run drossel-schwabl
+```
+
+Game of Life
+```shell
+uv run game-of-life
+```
 
