@@ -1,6 +1,7 @@
 """
 Helpers to plot results using openCV
 """
+
 from typing import Optional
 
 import cv2
@@ -13,11 +14,11 @@ class CvGridWindow:
     """
 
     def __init__(
-            self,
-            name: str,
-            height: int = 480,
-            width: int = 640,
-            color_map: Optional[dict[int, tuple[int, int, int]]] = None
+        self,
+        name: str,
+        height: int = 480,
+        width: int = 640,
+        color_map: Optional[dict[int, tuple[int, int, int]]] = None,
     ) -> None:
         self.name = name
         self.color_map = color_map
@@ -44,12 +45,9 @@ class CvHistogramWindow:
     """
     Window to display a histogram of an 1d array using openCV
     """
+
     def __init__(
-            self,
-            name: str,
-            height: int = 480,
-            width: int = 640,
-            bins: int = 64
+        self, name: str, height: int = 480, width: int = 640, bins: int = 64
     ) -> None:
         self.name = name
         self.height = height
@@ -70,7 +68,9 @@ class CvHistogramWindow:
             return
 
         data = np.array(array)
-        hist, bin_edges = np.histogram(data, bins=self.bins, range=(0, np.max(data)))  # range covers min and max
+        hist, bin_edges = np.histogram(
+            data, bins=self.bins, range=(0, np.max(data))
+        )  # range covers min and max
         hist = hist.astype(np.float32)
 
         hist_img = np.zeros((self.height, self.width, 3), dtype=np.uint8)
@@ -86,7 +86,8 @@ class CvHistogramWindow:
                 hist_img,
                 (bin_width * (i - 1), self.height - int(hist[i - 1])),
                 (bin_width * i, self.height - int(hist[i])),
-                (255, 255, 255), 2  # White color, thickness 2
+                (255, 255, 255),
+                2,  # White color, thickness 2
             )
 
         # Show the histogram

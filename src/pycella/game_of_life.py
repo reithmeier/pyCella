@@ -1,6 +1,7 @@
 """
 game_of_life
 """
+
 from typing import Literal
 
 import numpy as np
@@ -21,22 +22,15 @@ class GameOfLife:
     - dead == 3 alive neighbors --> alive
     """
 
-    states = {
-        "dead": 0,
-        "alive": 1
-    }
+    states = {"dead": 0, "alive": 1}
 
     def __init__(
-            self,
-            rows: int,
-            cols: int,
-            prob_init: float = 0.5,
-            neighborhood: np.ndarray = np.array([
-                [1, 1, 1],
-                [1, 1, 1],
-                [1, 1, 1]
-            ]),
-            boundary: Literal['fill', 'wrap', 'symm'] = 'fill'
+        self,
+        rows: int,
+        cols: int,
+        prob_init: float = 0.5,
+        neighborhood: np.ndarray = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        boundary: Literal["fill", "wrap", "symm"] = "fill",
     ):
         self.neighborhood = neighborhood
         self.boundary = boundary
@@ -51,7 +45,9 @@ class GameOfLife:
         dead = np.equal(self.grid, self.states["dead"])
 
         # calc alive neighbors
-        neighbors = convolve2d(alive, self.neighborhood, mode='same', boundary=self.boundary, fillvalue=0)
+        neighbors = convolve2d(
+            alive, self.neighborhood, mode="same", boundary=self.boundary, fillvalue=0
+        )
 
         # alive < 2 alive neighbors --> dead
         st2 = neighbors < 2

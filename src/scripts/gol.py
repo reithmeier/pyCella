@@ -1,6 +1,7 @@
 """
 gol
 """
+
 import cv2
 
 from pycella import GameOfLife, CvGridWindow
@@ -8,10 +9,13 @@ from pycella import GameOfLife, CvGridWindow
 
 def game_of_life():
     experiment = GameOfLife(500, 500)
-    grid_window = CvGridWindow("GameOfLife", color_map={
-        GameOfLife.states["dead"]: (0, 0, 0),  # black
-        GameOfLife.states["alive"]: (255, 255, 255),  # white
-    })
+    grid_window = CvGridWindow(
+        "GameOfLife",
+        color_map={
+            GameOfLife.states["dead"]: (0, 0, 0),  # black
+            GameOfLife.states["alive"]: (255, 255, 255),  # white
+        },
+    )
 
     while True:
         experiment.next()

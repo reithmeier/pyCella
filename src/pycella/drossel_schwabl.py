@@ -1,6 +1,7 @@
 """
 drossel_schwabl
 """
+
 from typing import Literal
 
 import numpy as np
@@ -22,24 +23,16 @@ class DrosselSchwabl:
     - free probability p --> tree
     """
 
-    states = {
-        "free": 0,
-        "tree": 1,
-        "fire": 2
-    }
+    states = {"free": 0, "tree": 1, "fire": 2}
 
     def __init__(
-            self,
-            rows: int,
-            cols: int,
-            prob_tree: float,
-            prob_fire: float,
-            neighborhood: np.ndarray = np.array([
-                [1, 1, 1],
-                [1, 1, 1],
-                [1, 1, 1]
-            ]),
-            boundary: Literal['fill', 'wrap', 'symm'] = 'fill'
+        self,
+        rows: int,
+        cols: int,
+        prob_tree: float,
+        prob_fire: float,
+        neighborhood: np.ndarray = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        boundary: Literal["fill", "wrap", "symm"] = "fill",
     ):
         self.prob_fire = prob_fire
         self.prob_tree = prob_tree
@@ -64,7 +57,16 @@ class DrosselSchwabl:
         self.grid[fire] = self.states["free"]
 
         # tree with >= 1 neighbors on fire --> fire
-        neighbor_on_fire = convolve2d(fire, self.neighborhood, mode='same', boundary=self.boundary, fillvalue=0) > 0
+        neighbor_on_fire = (
+            convolve2d(
+                fire,
+                self.neighborhood,
+                mode="same",
+                boundary=self.boundary,
+                fillvalue=0,
+            )
+            > 0
+        )
         self.grid[np.logical_and(tree, neighbor_on_fire)] = self.states["fire"]
 
         # only grow new trees and start fires when there is no fire going on right now
