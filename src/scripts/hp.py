@@ -2,11 +2,9 @@
 hp
 """
 
-import time
-
 import cv2
 
-from pycella import HostPathogen, CvGridWindow, CvLinePlotWindow, gaussian_matrix
+from pycella import HostPathogen, CvGridWindow, CvLinePlotWindow
 
 
 def host_pathogen():
