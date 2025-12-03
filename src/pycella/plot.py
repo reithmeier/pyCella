@@ -2,7 +2,7 @@
 Helpers to plot results using openCV
 """
 
-from typing import Optional
+from typing import Optional, List
 
 import cv2
 import numpy as np
@@ -14,11 +14,11 @@ class CvGridWindow:
     """
 
     def __init__(
-        self,
-        name: str,
-        height: int = 480,
-        width: int = 640,
-        color_map: Optional[dict[int, tuple[int, int, int]]] = None,
+            self,
+            name: str,
+            height: int = 480,
+            width: int = 640,
+            color_map: Optional[dict[int, tuple[int, int, int]]] = None,
     ) -> None:
         self.name = name
         self.color_map = color_map
@@ -47,7 +47,7 @@ class CvHistogramWindow:
     """
 
     def __init__(
-        self, name: str, height: int = 480, width: int = 640, bins: int = 64
+            self, name: str, height: int = 480, width: int = 640, bins: int = 64
     ) -> None:
         self.name = name
         self.height = height
@@ -92,3 +92,52 @@ class CvHistogramWindow:
 
         # Show the histogram
         cv2.imshow(self.name, hist_img)
+
+
+class CvLinePlotWindow:
+    """
+    Window to display a histogram of an 1d array using openCV
+    """
+
+    def __init__(
+            self, name: str, height: int = 480, width: int = 640
+    ) -> None:
+        self.name = name
+        self.height = height
+        self.width = width
+        self.margin = 5
+
+        # create window
+        cv2.namedWindow(self.name, cv2.WINDOW_NORMAL)
+        cv2.resizeWindow(self.name, width, height)
+
+    def show(self, series: List):
+        # Create white canvas
+        img = np.zeros((self.height, self.width, 3), dtype=np.uint8)
+
+        for (data, color) in series:
+            self.draw_line(img, data, color)
+
+        cv2.imshow(self.name, img)
+
+    def draw_line(self, img, data, color):
+        if len(data) < 2:
+            return
+
+        # Normalize data to fit graph height
+        y_max = max(data)
+        y_min = min(data)
+        y_range = y_max - y_min if y_max != y_min else 1
+
+        y_values = [
+            self.height - int((val - y_min) / y_range * self.height)
+            for val in data
+        ]
+
+        # step width in x-axis
+        x_interval = self.width // (len(data) - 1)
+        points = [(i * x_interval, y) for i, y in enumerate(y_values)]
+
+        # Draw lines between points
+        for i in range(len(points) - 1):
+            cv2.line(img, points[i], points[i + 1], color, 2)

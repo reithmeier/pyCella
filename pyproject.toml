@@ -24,4 +24,5 @@ dev = [
 
 [project.scripts]
 drossel-schwabl = "scripts.ds:main"
+host-pathogen = "scripts.hp:main"
 game-of-life = "scripts.gol:main"
