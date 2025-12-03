@@ -1,11 +1,13 @@
 """
 drossel_schwabl
 """
+
 from collections import deque
-from typing import Literal
+from typing import Literal, Deque
 
 import numpy as np
 from scipy.signal import convolve2d
+from numpy.typing import NDArray
 
 
 class DrosselSchwabl:
@@ -31,7 +33,7 @@ class DrosselSchwabl:
         cols: int,
         prob_tree: float,
         prob_fire: float,
-        neighborhood: np.ndarray = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        neighborhood: NDArray[np.uint8] = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
         boundary: Literal["fill", "wrap", "symm"] = "fill",
     ):
         self.prob_fire = prob_fire
@@ -83,7 +85,7 @@ class DrosselSchwabl:
     """is there currently fire"""
     __fire_total = 0
     """total sum of trees on fire during this fire"""
-    fire_stats = deque(maxlen=65536)
+    fire_stats: Deque[int] = deque(maxlen=65536)
     """list of all total fire sums"""
 
     def collect_fire_stats(self, fire_sum: int) -> None:

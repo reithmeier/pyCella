@@ -2,10 +2,11 @@
 Helpers to plot results using openCV
 """
 
-from typing import Optional, List
+from typing import Optional, List, Tuple
 
 import cv2
 import numpy as np
+from numpy.typing import NDArray
 
 
 class CvGridWindow:
@@ -21,12 +22,12 @@ class CvGridWindow:
         color_map: Optional[dict[int, tuple[int, int, int]]] = None,
     ) -> None:
         self.name = name
-        self.color_map = color_map
+        self.color_map = color_map if color_map is not None else {}
         # create window
         cv2.namedWindow(self.name, cv2.WINDOW_NORMAL)
         cv2.resizeWindow(self.name, width, height)
 
-    def show(self, matrix: np.ndarray) -> None:
+    def show(self, matrix: NDArray[np.integer]) -> None:
         """
         update the window with the values of a 2d matrix
 
@@ -58,7 +59,7 @@ class CvHistogramWindow:
         cv2.namedWindow(self.name, cv2.WINDOW_NORMAL)
         cv2.resizeWindow(self.name, width, height)
 
-    def show(self, array: np.ndarray):
+    def show(self, array: NDArray[np.integer]):
         """
         update the window with an 1d array
 
@@ -109,7 +110,7 @@ class CvLinePlotWindow:
         cv2.namedWindow(self.name, cv2.WINDOW_NORMAL)
         cv2.resizeWindow(self.name, width, height)
 
-    def show(self, series: List):
+    def show(self, series: List[Tuple[List[int], Tuple[int, int, int]]]):
         # Create white canvas
         img = np.zeros((self.height, self.width, 3), dtype=np.uint8)
 
@@ -118,7 +119,9 @@ class CvLinePlotWindow:
 
         cv2.imshow(self.name, img)
 
-    def draw_line(self, img, data, color):
+    def draw_line(
+        self, img: NDArray[np.uint8], data: List[int], color: Tuple[int, int, int]
+    ):
         if len(data) < 2:
             return
 

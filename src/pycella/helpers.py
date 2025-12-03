@@ -5,7 +5,7 @@ helpers
 import numpy as np
 
 
-def gaussian_matrix(rows, cols, sigma=1.0):
+def gaussian_matrix(rows: int, cols: int, sigma: float = 1.0):
     """
     Generate a 2D Gaussian matrix of size (rows, cols) with standard deviation sigma.
     The Gaussian is centered in the middle of the matrix.

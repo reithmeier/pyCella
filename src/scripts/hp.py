@@ -30,9 +30,9 @@ def host_pathogen():
         grid_window.show(experiment.grid)
         line_window.show(
             [
-                (experiment.stats_empty, (222, 43, 22)),
-                (experiment.stats_healthy, (34, 139, 34)),
-                (experiment.stats_infected, (0, 0, 255)),
+                (list(experiment.stats_empty), (222, 43, 22)),
+                (list(experiment.stats_healthy), (34, 139, 34)),
+                (list(experiment.stats_infected), (0, 0, 255)),
             ]
         )
 

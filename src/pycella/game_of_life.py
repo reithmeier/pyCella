@@ -6,6 +6,7 @@ from typing import Literal
 
 import numpy as np
 from scipy.signal import convolve2d
+from numpy.typing import NDArray
 
 
 class GameOfLife:
@@ -29,7 +30,7 @@ class GameOfLife:
         rows: int,
         cols: int,
         prob_init: float = 0.5,
-        neighborhood: np.ndarray = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        neighborhood: NDArray[np.uint8] = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
         boundary: Literal["fill", "wrap", "symm"] = "fill",
     ):
         self.neighborhood = neighborhood

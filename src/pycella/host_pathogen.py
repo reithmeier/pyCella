@@ -1,11 +1,13 @@
 """
 host_pathogen
 """
+
 from collections import deque
-from typing import Literal
+from typing import Literal, Deque
 
 import numpy as np
 from scipy.signal import convolve2d
+from numpy.typing import NDArray
 
 
 class HostPathogen:
@@ -30,7 +32,7 @@ class HostPathogen:
         cols: int,
         prob_reproduce: float,
         prob_infect: float,
-        neighborhood: np.ndarray = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        neighborhood: NDArray[np.int8] = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
         boundary: Literal["fill", "wrap", "symm"] = "fill",
     ):
         self.rows = rows
@@ -85,12 +87,15 @@ class HostPathogen:
             self.grid == self.states["empty"]
         )
 
-    stats_empty = deque(maxlen=256)
-    stats_healthy = deque(maxlen=256)
-    stats_infected = deque(maxlen=256)
+    stats_empty: Deque[int] = deque(maxlen=256)
+    stats_healthy: Deque[int] = deque(maxlen=256)
+    stats_infected: Deque[int] = deque(maxlen=256)
 
     def collect_statistics(
-        self, empty: np.ndarray, healthy: np.ndarray, infected: np.ndarray
+        self,
+        empty: NDArray[np.bool],
+        healthy: NDArray[np.bool],
+        infected: NDArray[np.bool],
     ) -> None:
         self.stats_empty.append(empty.sum())
         self.stats_healthy.append(healthy.sum())
