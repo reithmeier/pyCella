@@ -1,7 +1,7 @@
 """
 drossel_schwabl
 """
-
+from collections import deque
 from typing import Literal
 
 import numpy as np
@@ -49,8 +49,8 @@ class DrosselSchwabl:
         fire = np.equal(self.grid, self.states["fire"])
 
         # collect the fire statistics
-        fire_sum = np.sum(fire)
-        self.collect_fire_stats(np.sum(fire))
+        fire_sum = fire.sum()
+        self.collect_fire_stats(fire_sum)
 
         # --- state changes ---
         # fire --> free
@@ -83,7 +83,7 @@ class DrosselSchwabl:
     """is there currently fire"""
     __fire_total = 0
     """total sum of trees on fire during this fire"""
-    fire_stats = []
+    fire_stats = deque(maxlen=65536)
     """list of all total fire sums"""
 
     def collect_fire_stats(self, fire_sum: int) -> None:

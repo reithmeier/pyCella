@@ -1,7 +1,7 @@
 """
 host_pathogen
 """
-
+from collections import deque
 from typing import Literal
 
 import numpy as np
@@ -85,9 +85,9 @@ class HostPathogen:
             self.grid == self.states["empty"]
         )
 
-    stats_empty = []
-    stats_healthy = []
-    stats_infected = []
+    stats_empty = deque(maxlen=256)
+    stats_healthy = deque(maxlen=256)
+    stats_infected = deque(maxlen=256)
 
     def collect_statistics(
         self, empty: np.ndarray, healthy: np.ndarray, infected: np.ndarray
