@@ -14,11 +14,11 @@ class CvGridWindow:
     """
 
     def __init__(
-            self,
-            name: str,
-            height: int = 480,
-            width: int = 640,
-            color_map: Optional[dict[int, tuple[int, int, int]]] = None,
+        self,
+        name: str,
+        height: int = 480,
+        width: int = 640,
+        color_map: Optional[dict[int, tuple[int, int, int]]] = None,
     ) -> None:
         self.name = name
         self.color_map = color_map
@@ -47,7 +47,7 @@ class CvHistogramWindow:
     """
 
     def __init__(
-            self, name: str, height: int = 480, width: int = 640, bins: int = 64
+        self, name: str, height: int = 480, width: int = 640, bins: int = 64
     ) -> None:
         self.name = name
         self.height = height
@@ -99,9 +99,7 @@ class CvLinePlotWindow:
     Window to display a histogram of an 1d array using openCV
     """
 
-    def __init__(
-            self, name: str, height: int = 480, width: int = 640
-    ) -> None:
+    def __init__(self, name: str, height: int = 480, width: int = 640) -> None:
         self.name = name
         self.height = height
         self.width = width
@@ -115,7 +113,7 @@ class CvLinePlotWindow:
         # Create white canvas
         img = np.zeros((self.height, self.width, 3), dtype=np.uint8)
 
-        for (data, color) in series:
+        for data, color in series:
             self.draw_line(img, data, color)
 
         cv2.imshow(self.name, img)
@@ -130,8 +128,7 @@ class CvLinePlotWindow:
         y_range = y_max - y_min if y_max != y_min else 1
 
         y_values = [
-            self.height - int((val - y_min) / y_range * self.height)
-            for val in data
+            self.height - int((val - y_min) / y_range * self.height) for val in data
         ]
 
         # step width in x-axis

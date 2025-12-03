@@ -25,13 +25,13 @@ class HostPathogen:
     states = {"empty": 0, "healthy": 1, "infected": 2}
 
     def __init__(
-            self,
-            rows: int,
-            cols: int,
-            prob_reproduce: float,
-            prob_infect: float,
-            neighborhood: np.ndarray = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
-            boundary: Literal["fill", "wrap", "symm"] = "fill",
+        self,
+        rows: int,
+        cols: int,
+        prob_reproduce: float,
+        prob_infect: float,
+        neighborhood: np.ndarray = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]]),
+        boundary: Literal["fill", "wrap", "symm"] = "fill",
     ):
         self.rows = rows
         self.cols = cols
@@ -55,29 +55,24 @@ class HostPathogen:
         # --- state changes ---
         # empty and healthy neighbors and probability -> healthy
         random_grid = np.random.rand(self.rows, self.cols)
-        healthy_neighbors = (
-            convolve2d(
-                healthy,
-                self.neighborhood,
-                mode="same",
-                boundary=self.boundary,
-                fillvalue=0,
-            )
-
+        healthy_neighbors = convolve2d(
+            healthy,
+            self.neighborhood,
+            mode="same",
+            boundary=self.boundary,
+            fillvalue=0,
         )
         reproduce = random_grid < (healthy_neighbors * self.prob_reproduce)
         self.grid[np.logical_and(empty, reproduce)] = self.states["healthy"]
 
         # healthy and infected neighbors and probability * num_infected -> infected
         random_grid = np.random.rand(self.rows, self.cols)
-        infected_neighbors = (
-            convolve2d(
-                infected,
-                self.neighborhood,
-                mode="same",
-                boundary=self.boundary,
-                fillvalue=0,
-            )
+        infected_neighbors = convolve2d(
+            infected,
+            self.neighborhood,
+            mode="same",
+            boundary=self.boundary,
+            fillvalue=0,
         )
         infect_neighbor = random_grid < (infected_neighbors * self.prob_infect)
         self.grid[np.logical_and(healthy, infect_neighbor)] = self.states["infected"]
@@ -86,13 +81,17 @@ class HostPathogen:
         self.grid[infected] = self.states["empty"]
 
     def has_next(self) -> bool:
-        return not np.all(self.grid == self.states["healthy"]) and not np.all(self.grid == self.states["empty"])
+        return not np.all(self.grid == self.states["healthy"]) and not np.all(
+            self.grid == self.states["empty"]
+        )
 
     stats_empty = []
     stats_healthy = []
     stats_infected = []
 
-    def collect_statistics(self, empty:np.ndarray, healthy:np.ndarray, infected:np.ndarray)->None:
+    def collect_statistics(
+        self, empty: np.ndarray, healthy: np.ndarray, infected: np.ndarray
+    ) -> None:
         self.stats_empty.append(empty.sum())
         self.stats_healthy.append(healthy.sum())
         self.stats_infected.append(infected.sum())

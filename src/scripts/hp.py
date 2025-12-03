@@ -1,6 +1,7 @@
 """
 hp
 """
+
 import time
 
 import cv2
@@ -19,17 +20,23 @@ def host_pathogen():
     )
     line_window = CvLinePlotWindow("Statistics")
     experiment = HostPathogen(
-        50, 50, 0.1, 0.8, boundary="wrap",
+        50,
+        50,
+        0.1,
+        0.8,
+        boundary="wrap",
     )
 
     while experiment.has_next():
         experiment.next()
         grid_window.show(experiment.grid)
-        line_window.show([
-            (experiment.stats_empty, (222, 43, 22)),
-            (experiment.stats_healthy, (34, 139, 34)),
-            (experiment.stats_infected, (0, 0, 255)),
-        ])
+        line_window.show(
+            [
+                (experiment.stats_empty, (222, 43, 22)),
+                (experiment.stats_healthy, (34, 139, 34)),
+                (experiment.stats_infected, (0, 0, 255)),
+            ]
+        )
 
         # wait for ESC
         if cv2.waitKey(1) & 0xFF == 27:  # ESC key to quit
